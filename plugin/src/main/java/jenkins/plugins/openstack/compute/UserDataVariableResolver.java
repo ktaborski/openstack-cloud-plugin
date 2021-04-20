@@ -26,6 +26,7 @@ package jenkins.plugins.openstack.compute;
 import hudson.Util;
 import hudson.util.VariableResolver;
 import jenkins.slaves.JnlpAgentReceiver;
+import jenkins.plugins.remotingkafka.KafkaSecretManager;
 
 import javax.annotation.Nonnull;
 import java.util.LinkedHashMap;
@@ -76,6 +77,11 @@ import java.util.Map;
                 "SLAVE_LABELS",
                 "Labels of the node.",
                 r -> r.labelString
+        );
+        stub(
+                "SLAVE_KAFKA_SECRET",
+                "Labels of the node.",
+                r ->  Util.fixNull(KafkaSecretManager.getConnectionSecret.mac(r.serverName))
         );
     }
     private static void stub(@Nonnull String name, @Nonnull String doc, @Nonnull ValueCalculator vc) {
